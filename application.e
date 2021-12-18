@@ -1,14 +1,9 @@
-note
-	description: "scoop_pathfinding application root class"
-	date: "$Date$"
-	revision: "$Revision$"
-
 class
 	APPLICATION
 
 inherit
 
-	ARGUMENTS_32
+	EV_APPLICATION
 
 create
 	make
@@ -17,19 +12,12 @@ feature {NONE} -- Initialization
 
 	make
 		local
-			map: MAP
-			bfs: BFS
+			window: MAIN_WINDOW
 		do
-			create map.read_from_file ("map.txt")
-			create bfs.for_map (map)
-			bfs.solve
-			check attached bfs.solution as sol then
-				across
-					sol is p
-				loop
-					print (p.row.out + " " + p.col.out + "%N")
-				end
-			end
+			default_create
+			create window
+			window.close_request_actions.extend (agent destroy)
+			launch
 		end
 
 end
