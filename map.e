@@ -35,12 +35,6 @@ feature
 					row.extend (True)
 				when '#' then
 					row.extend (False)
-				when '_' then
-					row.extend (True)
-					create start.make (rows.count + 1, row.count)
-				when '*' then
-					row.extend (True)
-					create finish.make (rows.count + 1, row.count)
 				when '%N' then
 					if row.is_empty then
 						had_empty_line := True
@@ -84,7 +78,5 @@ feature
 feature
 
 	cells: ARRAY2 [MAP_CELL]
-
-	start, finish: POSITION
 
 end

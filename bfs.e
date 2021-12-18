@@ -19,7 +19,7 @@ feature
 
 	Inf: INTEGER = 999999
 
-	solve
+	solve (a_start, a_finish: POSITION)
 		require
 			not attached solution
 		local
@@ -36,15 +36,15 @@ feature
 			create cost.make_filled (Inf, map.cells.height, map.cells.width)
 			create q.make (1)
 			from
-				cost [map.start.row, map.start.col] := 0
-				q.extend (map.start)
+				cost [a_start.row, a_start.col] := 0
+				q.extend (a_start)
 			until
 				finished or q.is_empty
 			loop
 				pos := q.item
 				q.remove
 				cur_cost := cost [pos.row, pos.col]
-				if pos ~ map.finish then
+				if pos ~ a_finish then
 					finished := True
 				else
 					across
@@ -67,15 +67,15 @@ feature
 			create sol.make
 			solution := sol
 			from
-				sol.extend (map.finish)
+				sol.extend (a_finish)
 			until
-				sol.first = map.start
+				sol.first = a_start
 			loop
 				added := False
 				across
 					around (sol.first) is p
 				loop
-					if not added and then cost [p.row, p.col] = cost [sol.first.row, sol.first.col] - 1 then
+					if not added and then p.in_map(map) and then cost [p.row, p.col] = cost [sol.first.row, sol.first.col] - 1 then
 						sol.put_front (p)
 						added := True
 					end

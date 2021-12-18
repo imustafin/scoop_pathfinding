@@ -23,15 +23,15 @@ feature {NONE}
 
 	graph: GRAPH
 
-	solvers: EV_MULTI_COLUMN_LIST
+	solvers: SOLVERS
 
 	create_interface_objects
 		do
 			create right_stack
 			create main_container
 			create graph
-			create solvers
-			create solve_button.make_with_text ("Solve")
+			create solvers.make
+			create solve_button
 		end
 
 	assemble_containers
@@ -47,13 +47,16 @@ feature {NONE}
 		local
 			map: MAP
 		do
+			create map.read_from_file ("map.txt")
 			Precursor {EV_TITLED_WINDOW}
 			assemble_containers
 			show
+			solve_button.set_text ("Solve")
+			solve_button.select_actions.extend (agent solvers.generate_and_solve (map))
 			set_title ("SCOOP Pathfinding")
 			set_minimum_size (1000, 1000)
 			graph.set_size (500, 500)
-			create map.read_from_file ("map.txt")
+
 			graph.set_map (map)
 			graph.draw_map
 		end
