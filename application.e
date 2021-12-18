@@ -7,6 +7,7 @@ class
 	APPLICATION
 
 inherit
+
 	ARGUMENTS_32
 
 create
@@ -15,10 +16,20 @@ create
 feature {NONE} -- Initialization
 
 	make
-			-- Run application.
+		local
+			map: MAP
+			bfs: BFS
 		do
-			--| Add your code here
-			print ("Hello Eiffel World!%N")
+			create map.read_from_file ("map.txt")
+			create bfs.for_map (map)
+			bfs.solve
+			check attached bfs.solution as sol then
+				across
+					sol is p
+				loop
+					print (p.row.out + " " + p.col.out + "%N")
+				end
+			end
 		end
 
 end
