@@ -41,10 +41,10 @@ feature
 						1 |..| m.cells.width is start_col
 					loop
 						across
-							(start_row + 1) |..| m.cells.height is finish_row
+							start_row |..| m.cells.height is finish_row
 						loop
 							across
-								(start_col + 1) |..| m.cells.width is finish_col
+								(if finish_row = start_row then start_col + 1 else 1 end) |..| m.cells.width is finish_col
 							loop
 								if m.cells [start_row, start_col].free and m.cells [finish_row, finish_col].free then
 									create solver.make (create {POSITION}.make (start_row, start_col), create {POSITION}.make (finish_row, finish_col))
@@ -70,9 +70,9 @@ feature
 				across
 					solvers is t
 				loop
-					t.row[3] := "Solving"
-					t.solver.solve(m)
-					t.row[3] := "Solved"
+					t.row [3] := "Solving"
+					t.solver.solve (m)
+					t.row [3] := "Solved"
 				end
 			end
 		end

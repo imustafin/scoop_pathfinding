@@ -59,6 +59,21 @@ feature {NONE}
 
 			graph.set_map (map)
 			graph.draw_map
+
+			solvers.select_actions.extend (agent (a_row: EV_MULTI_COLUMN_LIST_ROW)
+			do
+				across
+					solvers.solvers is solver
+				loop
+					if solver.row = a_row then
+						check attached solver.solver.bfs as b then
+							graph.set_solution(b.solution)
+							graph.draw_map
+						end
+
+					end
+				end
+			end)
 		end
 
 	is_in_default_state: BOOLEAN
